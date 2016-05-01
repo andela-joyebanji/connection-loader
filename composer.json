@@ -1,0 +1,19 @@
+{
+    "name": "laralabs/connection-loader",
+    "description": "Gathers additional database connections from a specified database connection and table",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Matt Clinton",
+            "email": "matt@laralabs.uk"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "LaralabsConnectionLoader\\": "src"
+        }
+    }
+}

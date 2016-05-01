@@ -11,10 +11,10 @@
  * @license The MIT License (MIT) See: LICENSE file
  * @copyright Copyright (c) 2016 Matt Clinton
  * @author Matt Clinton <matt@laralabs.uk>
- * @website www.laralabs.uk
+ * @website http://www.laralabs.uk
  */
 
-namespace ConnectionLoader;
+namespace Laralabs\ConnectionLoader;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
@@ -29,9 +29,10 @@ class ConnectionLoaderServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //$configPath = __DIR__ . '/../config/connectionloader.php';
-        $configPath = config_path().'/connectionloader.php';
+        $configPath = __DIR__ . '/config/connectionloader.php';
+        $migrationPath = __DIR__ . '/migration/create_connectionloader_table.php';
         $this->publishes([$configPath => config_path('connectionloader.php')], 'config');
+        $this->publishes([$migrationPath => database_path('migrations')], 'migrations');
 
         if($this->app['config']->get('connectionloader.enabled')){
 
@@ -42,7 +43,7 @@ class ConnectionLoaderServiceProvider extends ServiceProvider
 
             if(isset($connection) && isset($table) && isset($check))
             {
-                /*
+                /**
                  * Function to gather database connections from database and table provided
                  * in configuration file. Compiles into file that returns an array.
                  * Function returns path to the temporary file.
@@ -52,7 +53,7 @@ class ConnectionLoaderServiceProvider extends ServiceProvider
                 {
                     $file_path = storage_path('app/'.$fileName);
 
-                    /*
+                    /**
                      * Merge the returned configuration array into the existing database.connections
                      * configuration key.
                      */
@@ -60,14 +61,14 @@ class ConnectionLoaderServiceProvider extends ServiceProvider
                     $config = $this->app['config']->get($key, []);
                     $configSet = $this->app['config']->set($key, array_merge(require $file_path, $config));
 
-                    /*
+                    /**
                      * Now to delete the temporary file created during the process
                      */
                     $result = Storage::delete($fileName);
                     if($result === false)
                     {
-                        \Monolog\Handler\error_log('Failed to delete '.storage_path().$fileName);
-                        \Monolog\Handler\error_log('Trying once more');
+                        \error_log('Failed to delete '.storage_path().$fileName);
+                        \error_log('Trying once more');
                         $result = Storage::delete($fileName);
                         if($result === true)
                         {
@@ -99,8 +100,7 @@ class ConnectionLoaderServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //$configPath = __DIR__ . '/../config/connectionloader.php';
-        $configPath = config_path().'/connectionloader.php';
+        $configPath = __DIR__ . '/config/connectionloader.php';
         $this->mergeConfigFrom($configPath, 'connectionloader');
     }
 }
