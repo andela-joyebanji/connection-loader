@@ -30,7 +30,9 @@ class ConnectionLoaderServiceProvider extends ServiceProvider
     public function boot()
     {
         $configPath = __DIR__ . '/../config/connectionloader.php';
+        $migrationPath = __DIR__ . '/../migration/create_connectionloader_table.php';
         $this->publishes([$configPath => config_path('connectionloader.php')], 'config');
+        $this->publishes([$migrationPath => database_path('migrations')], 'migrations');
 
         if($this->app['config']->get('connectionloader.enabled')){
 
