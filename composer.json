@@ -13,7 +13,7 @@
     "require": {},
     "autoload": {
         "psr-4": {
-            "LaralabsConnectionLoader\\": "src"
+            "Laralabs\\ConnectionLoader\\": "src"
         }
     }
 }
