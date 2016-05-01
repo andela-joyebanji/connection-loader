@@ -12,6 +12,7 @@ Install via composer by adding the following line to your `composer.json` file:
 
 ```php
 "laralabs/connection-loader": "~1.0.0"
+```
 
 After updating composer you will need to add the ServiceProvider to the providers array in `config/app.php`
 
